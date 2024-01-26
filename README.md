@@ -1,3 +1,3 @@
-#Resenja blanketa za logicko projektovanje
+# Resenja blanketa za logicko projektovanje
 
-##Moja rešenja za blenkete iz logičkog projektovanja sa elektronskog fakulteta. Neka rešenja možda nisu tačna. 
+## Moja rešenja za blenkete iz logičkog projektovanja sa elektronskog fakulteta. Neka rešenja možda nisu tačna. 
