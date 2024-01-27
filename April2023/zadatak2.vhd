@@ -8,7 +8,11 @@ entity Seq_Det_Behavioral is
 end entity;
 
 architecture Seq_Det_Behavioral_arch of Seq_Det_Behavioral is
-	type State_Type is (S0, S1, S2, S3);
+	subtype State_Type is std_logic_vector(3 downto 0);
+	constant S0 : State_Type := "0001";
+	constant S1 : State_Type := "0010";
+	constant S2 : State_Type := "0100";
+	constant S3 : State_Type := "1000";
 	signal current_state, next_state : State_Type;
 
 	begin
@@ -44,6 +48,7 @@ architecture Seq_Det_Behavioral_arch of Seq_Det_Behavioral is
 								else
 									next_state <= S3;
 								end if;
+					when others => next_state <= S0;
 				end case;
 		end process;
 
