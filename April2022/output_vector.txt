@@ -1,0 +1,4 @@
+Input=A,Sel; Output=F
+A=00000010 Sel=001 F=1
+A=10000000 Sel=111 F=1
+A=00010000 Sel=000 F=0
