@@ -1,87 +1,94 @@
-Library IEEE;
-use IEEE.std_logic_1164.all;
-use IEEE.std_logic_textio.all;
-
-Library STD;
-use STD.textio.all;
-
-
-entity demux_1to8 is
+entity NOT1 is
 	port (A : in bit;
-		Sel : in bit_vector(2 downto 0);
-		F : out bit_vector(7 downto 0));
+		F : out bit);
 end entity;
 
-architecture demux_1to8_arch of demux_1to8 is
+architecture NOT1_arch of NOT1 is
 begin
-	F(7) <= A and Sel(2) and Sel(1) and Sel(0);
-	F(6) <= A and Sel(2) and Sel(1) and not Sel(0);
-	F(5) <= A and Sel(2) and not Sel(1) and Sel(0);
-	F(4) <= A and Sel(2) and not Sel(1) and not Sel(0);
-	F(3) <= A and not Sel(2) and Sel(1) and Sel(0);
-	F(2) <= A and not Sel(2) and Sel(1) and not Sel(0);
-	F(1) <= A and not Sel(2) and not Sel(1) and Sel(0);
-	F(0) <= A and not Sel(2) and not Sel(1) and not Sel(0);
+	F <= not A;
 end architecture;
 
-Library IEEE;
-use IEEE.std_logic_1164.all;
-use IEEE.std_logic_textio.all;
-
-Library STD;
-use STD.textio.all;
-
-entity demux_1to8_TB is
+entity AND4 is
+	port (A, B, C, D : in bit;
+		F : out bit);
 end entity;
 
-architecture demux_1to8_TB_arch of demux_1to8_TB is
-component demux_1to8 is
+architecture AND4_arch of AND4 is
+begin
+	F <= A and B and C and D;
+end architecture;
+
+entity OR4 is
+	port (A, B, C, D : in bit;
+		F : out bit);
+end entity;
+
+architecture OR4_arch of OR4 is
+begin
+	F <= A or B or C or D;
+end architecture;
+
+entity System1 is
+	port (A, B, C, D : in bit;
+		F : out bit);
+end entity;
+
+architecture System1_arch of System1 is
+
+component NOT1 is
 	port (A : in bit;
-		Sel : in bit_vector(2 downto 0);
-		F : out bit_vector(7 downto 0));
+		F : out bit);
 end component;
 
-	signal A_TB : bit;
-	signal Sel_TB : bit_vector(2 downto 0);
-	signal F_TB : bit_vector(7 downto 0);
+component AND4 is
+	port (A, B, C, D : in bit;
+		F : out bit);
+end component;
 
+component OR4 is
+	port (A, B, C, D : in bit;
+		F : out bit);
+end component;
+
+	signal An, Bn, Cn, Dn : bit;
+	signal m1, m3, m9, m11 : bit;
 begin
 
-	DUT1 : demux_1to8 port map (A => A_TB, Sel => Sel_TB, F => F_TB);
+	U1 : NOT1 port map (A => A, F => An);
+	U2 : NOT1 port map (A => B, F => Bn);
+	U3 : NOT1 port map (A => C, F => Cn);
+	U4 : NOT1 port map (A => D, F => Dn);
+
+	U5 : AND4 port map (A => An, B => Bn, C => Cn, D => D, F => m1);
+	U6 : AND4 port map (A => An, B => Bn, C => C, D => D, F => m3);
+	U7 : AND4 port map (A => A, B => Bn, C => Cn, D => D, F => m9);
+	U8 : AND4 port map (A => A, B => Bn, C => C, D => D, F => m11);
+
+	U9 : OR4 port map (A => m1, B => m3, C => m9, D => m11, F => F);
+end architecture;
+
+entity System1_TB is
+end entity;
+
+architecture System1_TB_arch of System1_TB is
+
+component System1 is
+	port (A, B, C, D : in bit;
+		F : out bit);
+end component;
+
+	signal A_TB, B_TB, C_TB, D_TB : bit;
+	signal F_TB : bit;
+begin
+	DUT1 : System1 port map (A => A_TB, B => B_TB, C => C_TB, D => D_TB, F => F_TB);
 
 	STIMULUS : process
 
-	file Fout : TEXT open WRITE_MODE is "izlaz.txt";
-	file Fin: TEXT open READ_MODE is "ulaz.txt";
-	variable current_wline : line;
-	variable current_rline : line;
-	variable current_a : bit;
-	variable current_sel : bit_vector(2 downto 0);
-	
 	begin
-	
-	write(current_wline, string'("Input=A,Sel; Output=F"));
-	writeline(Fout, current_wline);
 
-	for i in 0 to 2 loop
-		readline(Fin, current_rline);
-		read(current_rline, current_a);
-		A_TB <= current_a;
-		wait for 10 ns;
-		readline(Fin, current_rline);
-		read(current_rline, current_sel);
-		Sel_TB <= current_sel;
-		wait for 10 ns;
-		write(current_wline, string'("A="));
-		write(current_wline, A_TB);
-		write(current_wline, string'(" Sel="));
-		write(current_wline, Sel_TB);
-		write(current_wline, string'(" F="));
-		write(current_wline, F_TB);
-		writeline(Fout, current_wline);
-	end loop;
-	wait;
+	A_TB <= '0'; B_TB <= '0'; C_TB <= '0'; D_TB <= '1'; wait for 100 ps;
+	A_TB <= '0'; B_TB <= '0'; C_TB <= '1'; D_TB <= '0'; wait for 100 ps;
+	A_TB <= '1'; B_TB <= '0'; C_TB <= '1'; D_TB <= '1'; wait for 100 ps;
+
 	end process;
 end architecture;
-	
-	
