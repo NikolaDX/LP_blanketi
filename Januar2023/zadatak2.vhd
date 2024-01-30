@@ -70,7 +70,7 @@ architecture rw_8x2_sync_TB_arch of rw_8x2_sync_TB is
 
 			WE_TB <= '0';
 			wait for 80 ns;
-			for i in 0 to 15 loop
+			for i in 0 to 7 loop
 				wait until rising_edge(Clock_TB);
 			address_TB <= std_logic_vector(to_unsigned(i, 3));
 			wait until rising_edge(Clock_TB);
@@ -80,7 +80,7 @@ architecture rw_8x2_sync_TB_arch of rw_8x2_sync_TB is
 
 			WE_TB <= '1';
 			wait for 80 ns;
-			for i in 0 to 15 loop
+			for i in 0 to 7 loop
 				wait until rising_edge(Clock_TB);
 					data_in_TB <= "00";
 				wait for 80 ns;
@@ -88,7 +88,7 @@ architecture rw_8x2_sync_TB_arch of rw_8x2_sync_TB is
 
 			WE_TB <= '0';
 			wait for 80 ns;
-			for i in 0 to 15 loop
+			for i in 0 to 7 loop
 				wait until rising_edge(Clock_TB);
 			address_TB <= std_logic_vector(to_unsigned(i, 3));
 			wait until rising_edge(Clock_TB);
