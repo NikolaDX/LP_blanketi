@@ -52,7 +52,7 @@ begin
 			end case;
 	end process;
 
-	OUTPUT_LOGIC : process (current_state, Din)
+	OUTPUT_LOGIC : process (current_state)
 		begin
 			case (current_state) is
 				when S0 => Dout <= '1';
