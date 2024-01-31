@@ -58,7 +58,7 @@ architecture rw_4x4_async_TB_arch of rw_4x4_async_TB is
 
 			WE_TB <= '0';
 			wait for 40 ns;
-			for i in 0 to 15 loop	
+			for i in 0 to 3 loop	
 				address_TB <= std_logic_vector(to_unsigned(i,2));
 					report "adress= " & to_string(address_TB) &  " data_out= " & to_string(data_out_TB);
 			wait for 40 ns;
@@ -66,7 +66,7 @@ architecture rw_4x4_async_TB_arch of rw_4x4_async_TB is
 
 			WE_TB <= '1';
 			wait for 120 ns;
-			for i in 0 to 15 loop
+			for i in 0 to 3 loop
 				address_TB <= std_logic_vector(to_unsigned(i,2));
 				data_in_TB <= std_logic_vector(to_unsigned(i,4));	
 			wait for 120 ns;
@@ -74,7 +74,7 @@ architecture rw_4x4_async_TB_arch of rw_4x4_async_TB is
 
 			WE_TB <= '0';
 			wait for 200 ns;	
-			for i in 0 to 15 loop
+			for i in 0 to 3 loop
 			address_TB <= std_logic_vector(to_unsigned(i,2));
 				report "adress= " & to_string(address_TB) &  " data_out= " & to_string(data_out_TB);
 			wait for 200 ns;	
