@@ -38,13 +38,12 @@ architecture fsm1_behavioral_arch of fsm1_behavioral is
 	OUTPUT_LOGIC : process (current_state, Din)
 		begin
 			case (current_state) is
-				when Start => Dout <= '0';
-				when Midway => Dout <= '0';
 				when Done => if (Din='0') then
 								Dout <= '0';
 							 else
 								Dout <= '1';
 							 end if;
+				when others => Dout <= '0';
 			end case;
 	end process;
 end architecture;
